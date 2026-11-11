@@ -1,0 +1,67 @@
+:root{font:16px/1.45 'Inter',system-ui,sans-serif;color:#172521;background:#edf1ee;--green:#153c30;--line:#d7e1d9;--muted:#4d6158;--paper:#fff}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+body{margin:0}
+.shell{width:min(1240px,calc(100% - 44px));margin:auto}
+.bar{background:#102b23;color:white;border-bottom:4px solid #b6d88b}
+.top{display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:68px}
+.identity{display:flex;align-items:center;gap:12px;font-weight:650;font-size:.88rem}
+.monogram{font-size:1.05rem;font-weight:850;border:1px solid #779586;padding:4px 8px;border-radius:5px}
+.top .secondary{color:white;background:transparent;border-color:#769084}
+.top .secondary:hover{background:#244638}
+.intro{margin:36px 0 25px}
+h1,h2,p{margin:0}
+h1{font-size:clamp(1.9rem,4vw,3rem);line-height:1.12;letter-spacing:-.045em}
+h2{font-size:1.18rem;letter-spacing:-.02em}
+.intro>p:first-of-type{color:var(--muted);margin-top:8px}
+.catalog{margin-top:12px;color:var(--green);font-size:.85rem;font-weight:650}
+.workspace{display:grid;grid-template-columns:minmax(0, .9fr) minmax(0,1.1fr);gap:20px;align-items:start;padding-bottom:40px}
+.card{background:var(--paper);border:1px solid var(--line);border-radius:16px;padding:22px;min-width:0}
+form,.search{margin-top:18px}
+label{display:block;font-size:.86rem;font-weight:650}
+textarea,input,select,button{font:inherit}
+textarea,input,select{padding:8px 10px;border:1px solid #b9c9be;border-radius:7px;background:white;color:inherit;min-width:0}
+textarea{resize:vertical}
+button{border:1px solid transparent;border-radius:8px;padding:8px 13px;background:var(--green);color:white;font-weight:680;font-size:.88rem;cursor:pointer}
+button:hover{background:#275644}
+button:disabled{cursor:default;opacity:.47}
+button.secondary{background:white;color:var(--green);border-color:#b9c9be}
+button.secondary:hover:not(:disabled){background:#edf4ed}
+:focus-visible{outline:3px solid #659638;outline-offset:2px}
+.hint{color:var(--muted);font-size:.82rem;margin-top:5px}
+.batch,.searchFields{display:flex;gap:8px;margin-top:5px}
+.batch textarea,.searchFields input{flex:1;width:0}
+.batch button{align-self:start;min-height:44px}
+.search{border-top:1px solid var(--line);padding-top:16px}
+.matches{margin-top:7px;max-height:356px;overflow:auto}
+.match{display:flex;gap:10px;align-items:center;padding:10px 4px;border-bottom:1px solid #edf1ed;cursor:pointer}
+.match:hover{background:#f4f8f3}
+.match input{accent-color:var(--green);width:17px;height:17px;flex-shrink:0}
+.match span,.itemInfo{overflow-wrap:anywhere}
+.match small,.itemInfo small{display:block;color:var(--muted);font-weight:450}
+.queueHead,.previewHead{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.count{background:#e6efdf;color:var(--green);border-radius:20px;padding:4px 10px;font-size:.8rem;font-weight:650;white-space:nowrap}
+.item{padding:12px 0;border-bottom:1px solid var(--line)}
+.itemInfo{font-size:.92rem;font-weight:680}
+.itemActions{display:flex;flex-wrap:wrap;align-items:center;gap:6px;margin-top:8px}
+.itemActions button{padding:4px 8px;font-size:.78rem}
+.itemActions input,.sender input{width:65px;padding:5px 7px}
+.pending{background:#fff5df;padding:10px;border-radius:7px;margin-top:9px;color:#5b3d0a}
+.pending select,.pending input{max-width:100%}
+.sender{margin-top:16px;background:#f2f6f1;padding:10px;border-radius:9px;display:flex;gap:9px;align-items:center;flex-wrap:wrap}
+.sender label{margin-right:auto}
+.actions{display:flex;flex-wrap:wrap;gap:7px;justify-content:flex-end;margin-top:17px}
+.actions .hint{flex-basis:100%;text-align:right}
+.empty{padding:20px 0;color:var(--muted);font-size:.9rem}
+[role=alert],#feedback{color:#782a19;font-size:.86rem;margin-top:8px}
+dialog{width:min(520px,calc(100% - 24px));max-height:88vh;overflow:auto;border:1px solid var(--line);border-radius:13px;padding:22px;box-shadow:0 16px 64px #102b2344}
+dialog::backdrop{background:#102b2377}
+dialog form{margin-top:0}
+dialog p,dialog label{margin:9px 0}
+.dialogActions{display:flex;gap:8px;justify-content:flex-end;flex-wrap:wrap;margin-top:14px}
+.fields label{display:grid;gap:4px}
+.preview{width:min(750px,calc(100% - 24px));background:#edf1ee}
+.sheet{display:block;width:100%;height:auto;background:#fff;margin:14px 0;box-shadow:0 2px 7px #0002}
+.sheet text{font-family:Arial,Helvetica,sans-serif;white-space:pre}
+a{color:var(--green)}
+@media(max-width:780px){.workspace{grid-template-columns:1fr}.shell{width:calc(100% - 24px)}.card{padding:15px}.intro{margin-top:24px}}

@@ -1,0 +1,7 @@
+codigo,marca,nombre,direccion,comuna,ciudad,alias
+T055,FSP,Chillán Demostración,Pasaje de Ejemplo 550 local 12,Chillán,Chillán,55|T55
+T058,FSP,San Carlos Demostración,Calle de Ejemplo 580 local 2,San Carlos,San Carlos,58|T58
+T060,FSP,Centro de Despachos Demostración,Av. de Ejemplo 600 local A-32,Santiago,Santiago,60|T60
+T091,FSP,Quilpué III Demostración,Pasaje de Ejemplo 910 local 5,Quilpué,Quilpué,91|T91
+H015,HC,Holly Demostración,Av. de Ejemplo 150 local 2006,La Florida,Santiago,1015|DEMO
+D008,DT,Dutties Demostración,Av. de Ejemplo 80 local 1,Buin,Buin,2008|DEMO

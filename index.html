@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="es-CL">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Prepara etiquetas de despacho y descarga un PDF Carta.">
+  <title>Etiquetas de despacho</title>
+  <link rel="stylesheet" href="style.css">
+  <script defer src="vendor/pdf-lib.min.js"></script>
+  <script defer src="core.js"></script>
+  <script defer src="pdf.js"></script>
+  <script defer src="app.js"></script>
+</head>
+<body>
+  <header class="bar"><div class="shell top"><span class="identity"><span class="monogram">FSP</span> Operaciones · Despacho</span><button id="openCatalog" class="secondary">Importar catálogo</button></div></header>
+  <main class="shell">
+    <div class="intro"><h1>Etiquetas de despacho</h1><p>Agrega tiendas, revisa las etiquetas y descarga el PDF listo para imprimir.</p><p id="catalogStatus" class="catalog" role="status"></p></div>
+    <div class="workspace">
+      <section class="card" aria-labelledby="selectTitle">
+        <h2 id="selectTitle">Agregar tiendas</h2>
+        <form id="batch">
+          <label for="codes">Códigos de tienda</label>
+          <div class="batch"><textarea id="codes" rows="2" placeholder="Ej. 55, 58, 60"></textarea><button type="submit">Agregar</button></div>
+          <p class="hint">Sepáralos por comas, espacios o saltos de línea.</p>
+        </form>
+        <div class="search">
+          <label for="search">Buscar y marcar tiendas</label>
+          <div class="searchFields"><input id="search" type="search" placeholder="Ej. Quilpué III"><select id="brand" aria-label="Filtrar por marca"><option value="">Todas las marcas</option><option>FSP</option><option>HC</option><option>DT</option></select></div>
+          <p class="hint" id="searchCount"></p>
+          <div id="matches" class="matches"></div>
+        </div>
+      </section>
+      <section class="card work" aria-labelledby="queueTitle">
+        <div class="queueHead"><h2 id="queueTitle">Etiquetas del envío</h2><span id="queueCount" class="count"></span></div>
+        <div id="queue"></div>
+        <div class="sender"><label for="senderCopies">Remitente · FSP - Casa Matriz</label><input type="number" id="senderCopies" min="0" max="100" value="0" aria-label="Copias de remitente"><span class="hint">copias</span></div>
+        <div class="actions"><button id="previewButton" class="secondary" disabled>Vista previa</button><button id="download" disabled>Descargar PDF</button><p class="hint">Imprimir en Carta, al 100 %, sin ajustar a página</p></div>
+        <p id="feedback" role="status"></p>
+      </section>
+    </div>
+  </main>
+  <dialog id="catalogDialog"><form id="catalogForm"><h2>Importar catálogo</h2>
+    <p>Elige un CSV UTF-8. El catálogo se guarda en este navegador.</p>
+    <p class="hint">Columnas: código, marca, nombre, dirección, comuna, ciudad y alias opcionales separados por |. Conserva la columna de códigos como texto al preparar el CSV.</p>
+    <label for="catalogFile">Archivo CSV</label><input id="catalogFile" type="file" accept=".csv,text/csv" required>
+    <p><a href="catalogo-ficticio.csv" download>Descargar catálogo ficticio de ejemplo</a></p>
+    <p id="catalogError" role="alert"></p>
+    <div class="dialogActions"><button type="button" class="secondary" data-close>Cancelar</button><button>Importar</button></div>
+  </form></dialog>
+  <dialog id="editDialog"><form id="editForm"><h2>Editar etiqueta</h2><p class="hint">Los cambios se aplican a las copias de esta etiqueta.</p><div id="editFields" class="fields"></div>
+    <div class="dialogActions"><button type="button" class="secondary" data-close>Cancelar</button><button>Guardar cambios</button></div>
+  </form></dialog>
+  <dialog id="equipmentDialog"><form id="equipmentForm"><h2>Contenido del envío</h2><p class="hint">Se imprime junto al destinatario, en la misma fila.</p>
+    <div class="fields">
+      <label>Equipo<input name="equipo" maxlength="150" required></label>
+      <label>Marca<input name="marca" maxlength="150" required></label>
+      <label>Modelo<input name="modelo" maxlength="150" required></label>
+      <label>S/N<input name="serie" maxlength="150" required></label>
+      <label>Logo<select name="logoOption"><option value="lenovo">Lenovo</option><option value="dell">Dell</option><option value="custom">Subir otro logo</option></select></label>
+      <label id="logoUpload" hidden>Imagen PNG o JPEG<input name="file" type="file" accept="image/png,image/jpeg"></label>
+    </div><p id="equipmentError" role="alert"></p>
+    <div class="dialogActions"><button type="button" id="removeEquipment" class="secondary">Quitar equipo</button><button type="button" class="secondary" data-close>Cancelar</button><button>Guardar equipo</button></div>
+  </form></dialog>
+  <dialog id="previewDialog" class="preview"><div class="previewHead"><h2>Vista previa Carta</h2><button class="secondary" data-close>Cerrar</button></div><div id="pages"></div></dialog>
+</body>
+</html>
