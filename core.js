@@ -1,5 +1,6 @@
 (function (root) {
   const brands = { FSP: 'Fashion’s Park', HC: 'Holly Concept', DT: 'Dutties' };
+  const equipmentLogoRatios = { lenovo: 1200 / 404, dell: 1, toshiba: 518 / 78 };
   const columns = ['codigo', 'marca', 'nombre', 'direccion', 'comuna', 'ciudad'];
   const sender = {
     marca: 'FSP', nombre: 'FSP - CASA MATRIZ', direccion: 'PANAMERICANA NORTE 5951',
@@ -74,17 +75,21 @@
     };
     for (const item of queue) {
       if (!item.store) throw new Error('Resuelve o quita los códigos pendientes antes de descargar.');
+      const equipment = item.equipments ?? (item.equipment ? [item.equipment] : []);
       for (let i = 0; i < item.copies; i++) {
-        if (item.equipment && labels.length % 2) place(null);
-        place(item.store);
-        if (item.equipment) place({ equipment: item.equipment });
+        if (!equipment.length) place(item.store);
+        for (const unit of equipment) {
+          if (labels.length % 2) place(null);
+          place(item.store);
+          place({ equipment: unit });
+        }
       }
     }
     for (let i = 0; i < senderCopies; i++) place(sender);
     return labels;
   }
 
-  const api = { brands, columns, parseCatalog, matchCode, search, positions };
+  const api = { brands, equipmentLogoRatios, columns, parseCatalog, matchCode, search, positions };
   if (typeof module !== 'undefined') module.exports = api;
   else root.Labels = api;
 })(globalThis);

@@ -50,13 +50,13 @@
   <dialog id="editDialog"><form id="editForm"><h2>Editar etiqueta</h2><p class="hint">Los cambios se aplican a las copias de esta etiqueta.</p><div id="editFields" class="fields"></div>
     <div class="dialogActions"><button type="button" class="secondary" data-close>Cancelar</button><button>Guardar cambios</button></div>
   </form></dialog>
-  <dialog id="equipmentDialog"><form id="equipmentForm"><h2>Contenido del envío</h2><p class="hint">Se imprime junto al destinatario, en la misma fila.</p>
+  <dialog id="equipmentDialog"><form id="equipmentForm"><h2>Contenido del envío</h2><p class="hint">Cada equipo tiene su propia etiqueta y se imprime junto al destinatario.</p>
     <div class="fields">
       <label>Equipo<input name="equipo" maxlength="150" required></label>
       <label>Marca<input name="marca" maxlength="150" required></label>
       <label>Modelo<input name="modelo" maxlength="150" required></label>
       <label>S/N<input name="serie" maxlength="150" required></label>
-      <label>Logo<select name="logoOption"><option value="lenovo">Lenovo</option><option value="dell">Dell</option><option value="custom">Subir otro logo</option></select></label>
+      <label>Logo<select name="logoOption"><option value="lenovo">Lenovo</option><option value="dell">Dell</option><option value="toshiba">Toshiba</option><option value="custom">Subir otro logo</option></select></label>
       <label id="logoUpload" hidden>Imagen PNG o JPEG<input name="file" type="file" accept="image/png,image/jpeg"></label>
     </div><p id="equipmentError" role="alert"></p>
     <div class="dialogActions"><button type="button" id="removeEquipment" class="secondary">Quitar equipo</button><button type="button" class="secondary" data-close>Cancelar</button><button>Guardar equipo</button></div>

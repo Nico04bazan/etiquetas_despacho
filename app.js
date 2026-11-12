@@ -3,6 +3,7 @@ const { columns, parseCatalog, matchCode, search, positions } = Labels;
 const storageKey = 'etiquetas.catalogo.v1';
 const queue = [];
 let catalog = [], catalogName = '', editing = null;
+let equipmentIndex = null;
 const engine = LabelPDF.createEngine();
 const fieldLabels = {
   codigo: 'Código', marca: 'Marca', nombre: 'Nombre de tienda',
@@ -26,7 +27,7 @@ function button(label, action, title = label) {
 }
 
 function newItem(store, query) {
-  return { source: store, store: store ? { ...store } : null, query, copies: 1 };
+  return { source: store, store: store ? { ...store } : null, query, copies: 1, equipments: [] };
 }
 
 function resolve(item, query) {
@@ -110,7 +111,7 @@ function countInput(input, min) {
 
 function updateActions() {
   const senders = countInput($('senderCopies'), 0);
-  const count = queue.reduce((total, item) => total + (item.store ? (item.copies || 0) * (item.equipment ? 2 : 1) : 0), senders ?? 0);
+  const count = queue.reduce((total, item) => total + (item.store ? (item.copies || 0) * (item.equipments.length * 2 || 1) : 0), senders ?? 0);
   $('queueCount').textContent = count + (count === 1 ? ' etiqueta' : ' etiquetas');
   const ready = count > 0 && senders !== null && queue.every((item) => item.store && item.copies !== null);
   $('download').disabled = $('previewButton').disabled = !ready;
@@ -127,7 +128,6 @@ function renderQueue() {
     const entry = node('article', null, 'item');
     const info = node('div', store.marca + ' · ' + store.codigo + ' · ' + store.nombre, 'itemInfo');
     info.append(node('small', store.direccion + ' · ' + store.comuna + ' · ' + store.ciudad));
-    if (item.equipment) info.append(node('small', 'Equipo: ' + item.equipment.marca + ' ' + item.equipment.modelo + ' · ' + item.equipment.serie));
     const controls = node('div', null, 'itemActions');
     const copies = node('input');
     copies.type = 'number';
@@ -145,10 +145,20 @@ function renderQueue() {
     const down = button('↓', () => move(1), 'Bajar ' + store.nombre);
     up.disabled = index === 0;
     down.disabled = index === queue.length - 1;
-    controls.append(node('label', 'Copias'), copies, up, down, button('Editar', () => edit(item)),
-      button(item.equipment ? 'Editar equipo' : 'Agregar equipo', () => editEquipment(item)),
+    controls.append(node('label', item.equipments.length ? 'Copias del conjunto' : 'Copias'), copies, up, down, button('Editar', () => edit(item)),
+      button(item.equipments.length ? '+ Otro equipo' : '+ Agregar equipo', () => editEquipment(item)),
       button('Quitar', () => removeItem(item)));
     entry.append(info, controls);
+    if (item.equipments.length) {
+      const list = node('ul', null, 'equipments');
+      item.equipments.forEach((unit, i) => {
+        const li = node('li', null, 'equipmentRow');
+        const summary = node('span', unit.equipo + ' · ' + unit.marca + ' ' + unit.modelo + ' · S/N ' + unit.serie);
+        li.append(summary, button('Editar equipo', () => editEquipment(item, i), 'Editar equipo ' + unit.equipo));
+        list.append(li);
+      });
+      entry.append(list);
+    }
     list.append(entry);
   });
   updateActions();
@@ -176,16 +186,18 @@ function edit(item) {
   $('editDialog').showModal();
 }
 
-function editEquipment(item) {
+function editEquipment(item, index = null) {
   editing = item;
+  equipmentIndex = index;
+  const unit = item.equipments[index];
   const form = $('equipmentForm');
   form.reset();
   for (const key of ['equipo', 'marca', 'modelo', 'serie', 'logoOption']) {
-    if (item.equipment) form.elements[key].value = item.equipment[key];
+    if (unit) form.elements[key].value = unit[key];
   }
   $('logoUpload').hidden = form.elements.logoOption.value !== 'custom';
   $('equipmentError').textContent = '';
-  $('removeEquipment').hidden = !item.equipment;
+  $('removeEquipment').hidden = !unit;
   $('equipmentDialog').showModal();
 }
 
@@ -290,7 +302,7 @@ $('equipmentForm').elements.logoOption.addEventListener('change', (event) => {
   $('logoUpload').hidden = event.target.value !== 'custom';
 });
 $('removeEquipment').addEventListener('click', () => {
-  delete editing.equipment;
+  if (equipmentIndex !== null) editing.equipments.splice(equipmentIndex, 1);
   $('equipmentDialog').close();
   renderQueue();
 });
@@ -298,21 +310,24 @@ $('equipmentForm').addEventListener('submit', async (event) => {
   event.preventDefault();
   const fields = new FormData(event.currentTarget);
   const item = editing;
+  const index = equipmentIndex;
+  const previous = item.equipments[index];
   try {
     const equipment = Object.fromEntries(['equipo', 'marca', 'modelo', 'serie', 'logoOption'].map((key) => [key, fields.get(key).trim()]));
     if (Object.values(equipment).some((value) => !value)) throw new Error('Completa los datos del equipo.');
     if (equipment.logoOption === 'custom') {
       const file = fields.get('file');
       if (file?.size) Object.assign(equipment, await convertLogo(file));
-      else if (item.equipment?.logoOption === 'custom') {
-        equipment.logo = item.equipment.logo;
-        equipment.logoRatio = item.equipment.logoRatio;
+      else if (previous?.logoOption === 'custom') {
+        equipment.logo = previous.logo;
+        equipment.logoRatio = previous.logoRatio;
       } else throw new Error('Selecciona una imagen para el logo.');
     } else {
       equipment.logo = 'logos/' + equipment.logoOption + '.png';
-      equipment.logoRatio = equipment.logoOption === 'lenovo' ? 1200 / 404 : 1;
+      equipment.logoRatio = Labels.equipmentLogoRatios[equipment.logoOption];
     }
-    item.equipment = equipment;
+    if (index === null) item.equipments.push(equipment);
+    else item.equipments[index] = equipment;
     $('equipmentDialog').close();
     renderQueue();
   } catch (error) { $('equipmentError').textContent = error.message; }

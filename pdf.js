@@ -2,7 +2,7 @@
   const lib = typeof module !== 'undefined' ? require('./vendor/pdf-lib.min.js') : root.PDFLib;
   const core = typeof module !== 'undefined' ? require('./core.js') : root.Labels;
   const width = 288, height = 237.55;
-  const brandHeaders = { FSP: 'FASHION’S PARK', HC: 'HOLLY CONCEPT', DT: 'DUTTIES' };
+  const brandLogos = { FSP: ['fsp', 382 / 315], HC: ['hc', 622 / 400], DT: ['dt', 608 / 163] };
 
   async function createEngine() {
     const pdf = await lib.PDFDocument.create();
@@ -70,8 +70,10 @@
         logo = { src: equipment.logo, x: (width - w) / 2, y: y + 20 * scale - h, width: w, height: h };
         single('CONTENIDO DEL ENVÍO', 12 * scale, y + 41 * scale);
       } else {
-        single(label.marca, 25 * scale, y);
-        single(brandHeaders[label.marca], 8 * scale, y + 13 * scale, false);
+        const [asset, ratio] = brandLogos[label.marca];
+        const w = Math.min(112, 40 * ratio) * scale;
+        const h = w / ratio;
+        logo = { src: 'logos/' + asset + '.png', x: (width - w) / 2, y: y + 1 * scale - h / 2, width: w, height: h };
         single(label.sender ? 'REMITENTE' : 'DESTINATARIO', 12 * scale, y + 41 * scale);
       }
       let baseline = y + 67.5 * scale;

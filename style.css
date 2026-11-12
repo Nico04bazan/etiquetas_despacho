@@ -45,6 +45,9 @@ button.secondary:hover:not(:disabled){background:#edf4ed}
 .itemInfo{font-size:.92rem;font-weight:680}
 .itemActions{display:flex;flex-wrap:wrap;align-items:center;gap:6px;margin-top:8px}
 .itemActions button{padding:4px 8px;font-size:.78rem}
+.equipments{list-style:none;padding:0;margin:10px 0 0}
+.equipmentRow{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:6px 8px;margin-top:4px;background:#f2f6f1;border-radius:7px;font-size:.8rem;overflow-wrap:anywhere}
+.equipmentRow button{flex-shrink:0;padding:4px 8px;font-size:.75rem}
 .itemActions input,.sender input{width:65px;padding:5px 7px}
 .pending{background:#fff5df;padding:10px;border-radius:7px;margin-top:9px;color:#5b3d0a}
 .pending select,.pending input{max-width:100%}
