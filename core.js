@@ -3,7 +3,7 @@
   const equipmentLogoRatios = { lenovo: 1200 / 404, dell: 1, toshiba: 518 / 78 };
   const columns = ['codigo', 'marca', 'nombre', 'direccion', 'comuna', 'ciudad'];
   const sender = {
-    marca: 'FSP', nombre: 'FSP - CASA MATRIZ', direccion: 'PANAMERICANA NORTE 5951',
+    marca: 'FSP', nombre: 'FSP - CASA MATRIZ', direccion: 'PRESIDENTE FREI MONTALVA 5951',
     comuna: 'CONCHALÍ', ciudad: 'SANTIAGO', sender: true,
   };
   const normalize = (value) => value.trim().normalize('NFD').replace(/\p{M}/gu, '')

@@ -12,12 +12,18 @@
   <script defer src="app.js"></script>
 </head>
 <body>
-  <header class="bar"><div class="shell top"><span class="identity"><span class="monogram">FSP</span> Operaciones · Despacho</span><button id="openCatalog" class="secondary">Importar catálogo</button></div></header>
+  <header class="bar"><div class="shell top">
+    <div class="identity"><span class="brand-lockup"><img src="logos/fsp.png" alt="Fashion’s Park" width="48" height="40"></span><span class="department">Operaciones <span>·</span> Despacho</span></div>
+    <button id="openCatalog" class="secondary">Importar catálogo</button>
+  </div></header>
   <main class="shell">
-    <div class="intro"><h1>Etiquetas de despacho</h1><p>Agrega tiendas, revisa las etiquetas y descarga el PDF listo para imprimir.</p><p id="catalogStatus" class="catalog" role="status"></p></div>
+    <div class="intro">
+      <div class="intro-copy"><h1>Etiquetas<br>de despacho<span>.</span></h1><p>Agrega tiendas, revisa las etiquetas y descarga el PDF listo para imprimir.</p></div>
+      <div class="intro-side"><div class="hero-mark" aria-hidden="true"><img src="logos/fsp.png" alt=""></div><p id="catalogStatus" class="catalog" role="status"></p></div>
+    </div>
     <div class="workspace">
       <section class="card" aria-labelledby="selectTitle">
-        <h2 id="selectTitle">Agregar tiendas</h2>
+        <h2 id="selectTitle" class="section-title">Agregar tiendas</h2>
         <form id="batch">
           <label for="codes">Códigos de tienda</label>
           <div class="batch"><textarea id="codes" rows="2" placeholder="Ej. 55, 58, 60"></textarea><button type="submit">Agregar</button></div>
@@ -31,7 +37,7 @@
         </div>
       </section>
       <section class="card work" aria-labelledby="queueTitle">
-        <div class="queueHead"><h2 id="queueTitle">Etiquetas del envío</h2><span id="queueCount" class="count"></span></div>
+        <div class="queueHead"><h2 id="queueTitle" class="section-title">Etiquetas del envío</h2><span id="queueCount" class="count"></span></div>
         <div id="queue"></div>
         <div class="sender"><label for="senderCopies">Remitente · FSP - Casa Matriz</label><input type="number" id="senderCopies" min="0" max="100" value="0" aria-label="Copias de remitente"><span class="hint">copias</span></div>
         <div class="actions"><button id="previewButton" class="secondary" disabled>Vista previa</button><button id="download" disabled>Descargar PDF</button><p class="hint">Imprimir en Carta, al 100 %, sin ajustar a página</p></div>
